@@ -22,25 +22,9 @@ import uk.gov.hmrc.test.api.conf.TestConfiguration
 import scala.concurrent.Await
 import scala.concurrent.duration._
 
-class ExampleService(client: HttpClient) {
+class ExampleHoDsService(client: HttpClient) {
 
-  def publicEndpoint(): ServiceResponse = {
-    val url = TestConfiguration.url("platops-example-backend-microservice") + "/hello-world"
-    Await.result(
-      client.GET(url),
-      10.seconds
-    )
-  }
-
-  def privateEndpoint(): ServiceResponse = {
-    val url = TestConfiguration.url("platops-example-private-backend-microservice") + "/hello-world"
-    Await.result(
-      client.GET(url),
-      10.seconds
-    )
-  }
-
-  def hodsEndpoint(): ServiceResponse = {
+  def helloWorld(): ServiceResponse = {
     val url = TestConfiguration.url("outbound-hods-proxy") + "/business-details/mtdbsa/XKIT00000000074"
     Await.result(
       client.GET(

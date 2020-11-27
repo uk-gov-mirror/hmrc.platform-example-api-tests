@@ -20,9 +20,11 @@ import io.cucumber.scala.{EN, ScalaDsl}
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually
 import uk.gov.hmrc.test.api.client.HttpClient
-import uk.gov.hmrc.test.api.service.ExampleService
+import uk.gov.hmrc.test.api.service.{ExampleHoDsService, ExamplePrivateService, ExamplePublicService}
 
 trait BaseStepDef extends ScalaDsl with EN with Eventually with Matchers {
-  val httpClient     = new HttpClient
-  val exampleService = new ExampleService(httpClient)
+  val httpClient            = new HttpClient
+  val examplePublicService  = new ExamplePublicService(httpClient)
+  val examplePrivateService = new ExamplePrivateService(httpClient)
+  val exampleHoDsService    = new ExampleHoDsService(httpClient)
 }

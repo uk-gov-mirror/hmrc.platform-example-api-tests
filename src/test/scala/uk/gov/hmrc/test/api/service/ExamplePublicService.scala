@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.api.cucumber.runner
+package uk.gov.hmrc.test.api.service
 
-import io.cucumber.junit.{Cucumber, CucumberOptions}
-import org.junit.runner.RunWith
+import uk.gov.hmrc.test.api.client.{HttpClient, ServiceResponse}
+import uk.gov.hmrc.test.api.conf.TestConfiguration
 
-@RunWith(classOf[Cucumber])
-@CucumberOptions(
-  features = Array("src/test/resources/features"),
-  glue = Array("uk.gov.hmrc.test.api.cucumber.stepdefs"),
-  plugin = Array("pretty", "html:target/cucumber", "json:target/cucumber.json"),
-  tags = "@Contract"
-)
-class ContractAPIExampleRunner {}
+import scala.concurrent.Await
+import scala.concurrent.duration._
+
+class ExamplePublicService(client: HttpClient) {
+
+  def helloWorld(): ServiceResponse = {
+    val url = TestConfiguration.url("platops-example-backend-microservice") + "/hello-world"
+    Await.result(
+      client.GET(url),
+      10.seconds
+    )
+  }
+}

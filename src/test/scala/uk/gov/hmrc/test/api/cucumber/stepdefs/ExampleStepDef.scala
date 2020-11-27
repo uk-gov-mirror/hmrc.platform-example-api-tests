@@ -22,17 +22,17 @@ import uk.gov.hmrc.test.api.utils.ScenarioContext
 class ExampleStepDef extends BaseStepDef {
 
   When("a request is made to the example public endpoint") { () =>
-    val response = exampleService.publicEndpoint()
+    val response = examplePublicService.helloWorld()
     ScenarioContext.set("response", response)
   }
 
   When("a request is made to the example private endpoint") { () =>
-    val response = exampleService.privateEndpoint()
+    val response = examplePrivateService.helloWorld()
     ScenarioContext.set("response", response)
   }
 
   When("a request is made to a hods proxy endpoint") { () =>
-    val response = exampleService.hodsEndpoint()
+    val response = exampleHoDsService.helloWorld()
     ScenarioContext.set("response", response)
   }
 
