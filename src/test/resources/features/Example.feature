@@ -1,14 +1,18 @@
-@Example
+Feature: API Examples using Cucumber
 
-Feature: Example Feature file using Cucumber
+  @Example
+  Scenario: Request is made to a public service endpoint
+    When a request is made to the example public endpoint
+    Then it should respond successfully
+    And the response body should be "Hello world - public zone"
 
-  Scenario: Retrieve customers contact information
-    When a request is made to get customer contact information
-    Then the response code should be 200
+  @Example
+  Scenario: Request is made to a private service endpoint
+    When a request is made to the example private endpoint
+    Then it should respond successfully
+    And the response body should be "Hello world - protected zone"
 
-  Scenario: Unable to retrieve customer contact information when providing invalid information
-    When an invalid request is made to get customer contact information
-    Then the response code should be 400
-    And I am returned an invalid VRN response
-
-
+  @Contract
+  Scenario: Contract example testing outbound hods proxy access
+    When a request is made to a hods proxy endpoint
+    Then it should respond successfully

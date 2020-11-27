@@ -20,30 +20,31 @@ import uk.gov.hmrc.test.api.client.ServiceResponse
 import uk.gov.hmrc.test.api.utils.ScenarioContext
 
 class ExampleStepDef extends BaseStepDef {
-  When("a request is made to get customer contact information") { () =>
-    val response = exampleService.getInformation(validRegime, validIdType, validId)
+
+  When("a request is made to the example public endpoint") { () =>
+    val response = exampleService.publicEndpoint()
     ScenarioContext.set("response", response)
   }
 
-  When("an invalid request is made to get customer contact information") { () =>
-    val response = exampleService.getInformation(validRegime, validIdType, invalidId)
+  When("a request is made to the example private endpoint") { () =>
+    val response = exampleService.privateEndpoint()
     ScenarioContext.set("response", response)
   }
 
-  Then("the response code should be {int}") { expectedCode: Int =>
-    val response: ServiceResponse = ScenarioContext.get("response")
-    response.status should be(expectedCode)
+  When("a request is made to a hods proxy endpoint") { () =>
+    val response = exampleService.hodsEndpoint()
+    ScenarioContext.set("response", response)
   }
 
-  And("I am returned an invalid VRN response") { () =>
+  Then("it should respond successfully") { () =>
     val response: ServiceResponse = ScenarioContext.get("response")
-    response.body shouldBe Some(invalidVRNResponse)
+    response.status should be(200)
   }
 
-  val validRegime        = "VATC"
-  val validIdType        = "VRN"
-  val validId            = "919951000"
-  val invalidId          = "<ID>"
-  val invalidVRNResponse = "VRN contained a non digit character: <ID>"
+  And("the response body should be {string}") { expectedBody: String =>
+    val response: ServiceResponse = ScenarioContext.get("response")
+    response.body shouldBe Some(expectedBody)
+
+  }
 
 }
