@@ -12,7 +12,7 @@ Example api tests interacting with services:
 ### Locally with SM:
 Start services locally using service manager:
 
-```sm --start PLATFORM_EXAMPLE -f```
+```sm --start PLATOPS_EXAMPLE -f```
 
 Then execute the script: `./run_example_api_test.sh` 
 
