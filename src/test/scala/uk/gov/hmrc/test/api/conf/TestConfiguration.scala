@@ -22,12 +22,12 @@ object TestConfiguration {
   val config: Config        = ConfigFactory.load()
   val env: String           = config.getString("environment")
   val defaultConfig: Config = config.getConfig("local")
-  val envConfig: Config     = config.getConfig(env).withFallback(defaultConfig)
+  val envConfig: Config     = config.getConfig(env).withFallback(defaultConfig).withFallback(config)
 
   def url(service: String): String = {
     val host = env match {
       case "local" => s"$environmentHost:${servicePort(service)}"
-      case _       => s"${envConfig.getString(s"services.host")}"
+      case _       => s"${serviceHost(service)}"
     }
     s"$host${serviceRoute(service)}"
   }
@@ -35,6 +35,11 @@ object TestConfiguration {
   def environmentHost: String = envConfig.getString("services.host")
 
   def servicePort(serviceName: String): String = envConfig.getString(s"services.$serviceName.port")
+
+  def serviceHost(serviceName: String): String = {
+    val serviceConfig: Config = envConfig.getConfig(s"services.$serviceName")
+    serviceConfig.withFallback(envConfig.getConfig("services")).getString("host")
+  }
 
   def serviceRoute(serviceName: String): String = envConfig.getString(s"services.$serviceName.productionRoute")
 }

@@ -1,32 +1,34 @@
-**This is a template README.md.  Be sure to update this with project specific content that describes your api test project.**
 
 # platform-example-api-tests
-API test suite for the `<digital service name>` using Cucumber and [play-ws](https://github.com/playframework/play-ws) client.  
 
-## Running the tests
+Example api tests interacting with services:
+- running locally in an sm profile
+- deployed to the **public zone** with frontend routes configured
+- deployed to the **protected zone** 
+- accessible via the [outbound-hods-proxy](https://github.com/hmrc/aws-ami-outbound-hodsproxy)
 
-Prior to executing the tests ensure you have:
- - Installed [MongoDB](https://docs.mongodb.com/manual/installation/) 
- - Installed/configured [service manager](https://github.com/hmrc/service-manager).  
+## Executing the tests:
 
-Run the following command to start services locally:
+### Locally with SM:
+Start services locally using service manager:
 
-    sudo mongod
-    sm --start DIRECT_DEBIT_STUBS -r
+```sm --start PLATOPS_EXAMPLE -f```
 
-Then execute the Cucumber tests:
+Then execute the script: `./run_example_api_test.sh` 
 
-    sbt clean test
+### Against a test environment
+To run these tests in jenkins [build](https://build.tax.service.gov.uk/) against the QA environment, execute the script with an environment parameter.  For example: 
+```run_example_api_test.sh <environment>```
 
-The tests default to the `local` environment.  For a complete list of supported param values, see:
- - `src/test/resources/application.conf` for **environment** 
+Where `<environment>` can be any one of either:
+- development
+- qa
+- staging
 
-#### Running the tests against a test environment
+## Proxy configuration for accessing test environments
+This project uses typesafe config to manage proxy configuration in `application.conf`.  The environment variable values for proxy host and port used in the application.conf are compatible with CI.
 
-To run the tests against an environment set the corresponding `host` environment property as specified under
- `<env>.host.services` in the [application.conf](/src/test/resources/application.conf). 
-
- ### Scalafmt
+## Scalafmt
  This repository uses [Scalafmt](https://scalameta.org/scalafmt/), a code formatter for Scala. The formatting rules configured for this repository are defined within [.scalafmt.conf](.scalafmt.conf).
 
  To apply formatting to this repository using the configured rules in [.scalafmt.conf](.scalafmt.conf) execute:
