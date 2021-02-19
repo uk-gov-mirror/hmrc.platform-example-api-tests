@@ -12,7 +12,10 @@ Example api tests interacting with services:
 ### Locally with SM:
 Start services locally using service manager:
 
-```sm --start PLATOPS_EXAMPLE -f```
+```sm --start PLATOPS_EXAMPLE -r --wait 100```
+
+Using the --wait 100 argument ensures a health check is run on all the services started as part of the profile.
+100 refers to the given number of seconds to wait for services to pass health checks.
 
 Then execute the script: `./run_example_api_test.sh` 
 
